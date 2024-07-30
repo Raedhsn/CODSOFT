@@ -1,0 +1,194 @@
+#include <iostream> // Includes the input-output stream library
+#include <cctype>   // Includes the library for character handling functions
+
+using namespace std; // Uses the standard namespace
+
+// Function declarations
+void Greetings(char &P1);
+void Begin();
+void initiateBoard(char Game[3][3]);
+void step(int &row, int &column);
+void printBoard(const char Game[3][3]);
+int Check4Win(int &result, char Game[3][3]);
+int Check4Draw(int &result, char Game[3][3]);
+void printResult1(char P1, int result);
+void printResult2(char P1, int result);
+
+int main() {
+    char P1, P2; // Player symbols
+    int row, column, result, choice = 1; // Variables for row, column, result, and choice
+    char Game[3][3]; // 3x3 game board
+
+    // Main game loop, repeats if the player chooses to play again
+    while(choice == 1) {
+        Greetings(P1); // Display greeting and get first player's symbol
+
+        // Validate player symbol input
+        while(P1 != 'x' && P1 != 'X' && P1 != 'o' && P1 != 'O') {
+            cout << "please stick to X or O:" << endl;
+            cin >> P1;
+        }
+
+        P1 = toupper(P1); // Convert symbol to uppercase for consistency
+        P2 = (P1 == 'X') ? 'O' : 'X'; // Assign second player's symbol
+        cout << "First player is: " << P1 << endl << "And Second player is: " << P2 << endl << endl;
+
+        initiateBoard(Game); // Initialize the game board
+        Begin(); // Display instructions
+        printBoard(Game); // Print the initial game board
+        result = 0; // Reset the result for a new game
+        
+        // Game loop for each turn until a win or draw
+        while(result != 1 && result != 2) {
+            // First player's turn
+            cout << "First player round" << endl;
+            step(row, column); // Get row and column input from the player
+           
+            // Validate the move
+            while(row < 0 || row >= 3 || column < 0 || column >= 3 || (Game[row][column] == 'X' || Game[row][column] == 'O')) {
+                cout << "Invalid move. Please try again." << endl;
+                step(row, column);
+            }
+            Game[row][column] = P1; // Place the player's symbol on the board
+
+            printBoard(Game); // Print the updated board
+            Check4Win(result, Game); // Check for a win
+            Check4Draw(result, Game); // Check for a draw
+            printResult1(P1, result); // Print the result of the turn
+            if(result == 1 || result == 2) break; // If there's a win or draw, break the loop
+            
+            // Second player's turn
+            cout << "Second player round" << endl;
+            step(row, column); // Get row and column input from the player
+            
+            // Validate the move
+            while(row < 0 || row >= 3 || column < 0 || column >= 3 || (Game[row][column] == 'X' || Game[row][column] == 'O')) {
+                cout << "Invalid move. Please try again." << endl;
+                step(row, column);
+            }
+            Game[row][column] = P2; // Place the player's symbol on the board
+
+            printBoard(Game); // Print the updated board
+            Check4Win(result, Game); // Check for a win
+            Check4Draw(result, Game); // Check for a draw
+            printResult2(P2, result); // Print the result of the turn  
+        }
+        
+        // Ask if the players want to play again
+        cout << "Want to play again? If Yes enter 1 if No enter 2: ";
+        cin >> choice;
+        while(choice != 1 && choice != 2) {
+            cout << endl << "Please enter the right number" << endl << "Want to play again? If Yes enter 1 if No enter 2: ";
+            cin >> choice;
+        }
+
+        if(choice == 2) cout << endl << "Okay then! Bye";
+    }
+    return 0;
+}
+
+// Function to display the greeting message and get the first player's symbol
+void Greetings(char &P1) {
+    cout << "Welcome to ur favorite game Tic Tac Toe" << endl;
+    cout << "First choose who will start the X or the O" << endl;
+    cout << "Please type X or O :" << endl;
+    cin >> P1;
+}
+
+// Function to display the instructions on how to play the game
+void Begin() {
+    cout << "How to play? ";
+    cout << "It's simple! just choose the row and the column that signify where u want to play" << endl;
+    cout << "For example: 1 is row 0 and column 0, 6 is row 1 column 2 and 8 is row 2 column 1" << endl;
+}
+
+// Function to initialize the game board with numbers 1-9
+void initiateBoard(char Game[3][3]) {
+    int k = 1;
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            Game[i][j] = k + '0'; // Assigns '1' to '9' as initial values
+            k++;
+        }
+    }
+}
+
+// Function to get the row and column input from the player
+void step(int &row, int &column) {
+    cout << "Row :";
+    cin >> row;
+    cout << endl;
+    
+    cout << "Column :";
+    cin >> column;
+    cout << endl;
+}
+
+// Function to print the game board
+void printBoard(const char Game[3][3]) {
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            cout << Game[i][j];
+            if(j < 2) cout << "|"; // Print a separator for columns
+        }
+        cout << endl;
+        if(i < 2) cout << "-+-+-" << endl; // Print a separator for rows
+    }
+}
+
+// Function to check for a win condition
+int Check4Win(int &result, char Game[3][3]) {
+    for(int i = 0; i < 3; i++) {
+        if((Game[i][0] == Game[i][1] && Game[i][1] == Game[i][2])) { // Check rows
+            result = 1;
+            return result;
+        }
+
+        if((Game[0][i] == Game[1][i] && Game[1][i] == Game[2][i])) { // Check columns
+            result = 1;
+            return result;
+        }
+    }
+    if((Game[0][0] == Game[1][1] && Game[1][1] == Game[2][2]) || (Game[0][2] == Game[1][1] && Game[1][1] == Game[2][0])) { // Check diagonals
+        result = 1;
+        return result;
+    }
+    result = 0;   
+    return result;
+}
+
+// Function to check for a draw condition
+int Check4Draw(int &result, char Game[3][3]) {
+    if(result != 1) {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(Game[i][j] != 'X' && Game[i][j] != 'O') { // If there is an empty cell, it's not a draw
+                    result = 0;
+                    break;
+                } else {
+                    result = 2; // Assume it's a draw unless an empty cell is found
+                }
+            }
+        }
+    }
+    return result;   
+}
+
+// Function to print the result of the first player's turn
+void printResult1(char P1, int result) {
+    if(result == 1) {
+        cout << "Player " << P1 << " wins!" << endl;
+    } else if(result == 2) {
+        cout << "It's a draw!" << endl;
+    }
+}
+
+// Function to print the result of the second player's turn
+void printResult2(char P2, int result) {
+    if(result == 1) {
+        cout << "Player " << P2 << " wins!" << endl;
+    } else if(result == 2) {
+        cout << "It's a draw!" << endl;
+    }
+}
+
