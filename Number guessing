@@ -1,0 +1,144 @@
+#include <iostream> // Includes the input-output stream library
+#include <cstdlib>  // Includes the C standard library for functions like rand() and srand()
+#include <time.h>   // Includes the time library for seeding the random number generator
+
+using namespace std; // Uses the standard namespace
+
+// Function declarations
+void Greeting();
+void Start(int UserNbr, int RandNbr);
+
+int main(){
+    // Seed the random number generator with the current time
+    srand(time(0));
+    int UserNumber, RandomNumber, choice, attempts = 1;    
+    int max = 50; 
+
+    // Display the greeting message
+    Greeting();
+
+    // Prompt the user to start the game
+    cout << "Would you like to play?" << endl;
+    cout << "if YES enter 1, if NO enter 2" << endl;
+    cin >> choice;
+    
+    // Validate the user's choice input
+    while((choice != 1) & (choice != 2)){
+        cout << "Please enter the number correctly" << endl;
+        cin >> choice;
+    }
+
+    // If user chooses to play
+    if(choice == 1){
+        cout << "Please enter your number:";
+        cin >> UserNumber;
+        cout << endl;
+        // Generate a random number between 1 and max
+        RandomNumber = rand() % max + 1;
+    }
+
+    // Main game loop
+    while(choice == 1){
+        // Call the Start function to compare numbers
+        Start(UserNumber, RandomNumber);
+
+        // If the user's guess is not equal to the random number
+        if(UserNumber != RandomNumber){
+            cout << "Keep going, Enter a number:";
+            cin >> UserNumber;
+            attempts++; // Increment the number of attempts
+        }
+
+        // If the user's guess matches the random number
+        if(UserNumber == RandomNumber){
+            if(attempts > 1){
+                cout << "CONGRATULATIONS YOU WON!!" << endl;
+                cout << "with " << attempts << " attempts" << endl << endl;
+            }
+
+            // Prompt the user to play again
+            cout << "Would you like to play again?" << endl;
+            cout << "if YES enter 1, if NO enter 2" << endl;
+            cin >> choice;
+    
+            // Validate the user's choice input
+            while((choice != 1) & (choice != 2)){
+                cout << "Please enter the number correctly" << endl;
+                cin >> choice;
+            }
+        
+            // If user chooses not to play again, break the loop
+            if(choice == 2){
+                break;
+            }
+
+            // Reset for a new game
+            cout << "Alright, Please enter your guess:";
+            cin >> UserNumber;
+            RandomNumber = rand() % max + 1;
+            attempts = 1; // Reset attempts
+        }
+    }
+    
+    // If user chooses not to play initially
+    if(choice == 2)
+        cout << "Okay then, Good Bye!!" << endl;
+    
+    return 0; // End of the program
+}
+
+// Function to display the greeting message
+void Greeting(){
+    cout << "Welcome to the guessing game!" << endl;
+    cout << "You'll be asked to enter a number from 0 to 50 !" << endl;
+    cout << "And if your number matched our random number!!" << endl;
+    cout << "YOU WILL WIN" << endl << endl;
+}
+
+// Function to compare the user's number with the random number and give hints
+void Start(int UserNbr, int RandNbr){
+    if(UserNbr == RandNbr){
+        cout << "CONGRATULATIONS YOU WON!!" << endl;
+        cout << "FROM THE FIRST TIME!!" << endl;
+        cout << "You must be lucky" << endl << endl;    
+    }
+
+    // If user's guess is higher than the random number
+    if(UserNbr > RandNbr){
+        if((UserNbr - RandNbr) > 10){
+            cout << "Better luck next time" << endl;
+            cout << "Your guess " << UserNbr << " is so HIGH" << endl;
+            cout << "Try lower" << endl;
+        }
+        else if((UserNbr - RandNbr) > 5){
+            cout << "Better luck next time" << endl;
+            cout << "Your guess " << UserNbr << " is higher but not much" << endl;
+            cout << "Try lower" << endl;
+        }
+        else {
+            cout << "Better luck next time" << endl;
+            cout << "Your guess " << UserNbr << " is higher but so close!" << endl;
+            cout << "Try a little bit lower" << endl;
+        }
+    }
+
+    // If random number is higher than the user's guess
+    if(RandNbr > UserNbr){
+        if((RandNbr - UserNbr) > 10){
+            cout << "Better luck next time" << endl;
+            cout << "Your guess " << UserNbr << " is so LOW" << endl;
+            cout << "Try higher" << endl;
+        }
+        else if((RandNbr - UserNbr) > 5){
+            cout << "Better luck next time" << endl;
+            cout << "Your guess " << UserNbr << " is lower but not much" << endl;
+            cout << "Try higher" << endl;
+        }
+        else {
+            cout << "Better luck next time" << endl;
+            cout << "Your guess " << UserNbr << " is lower but so close!" << endl;
+            cout << "Try a little bit higher" << endl;
+        }
+    }
+}
+
