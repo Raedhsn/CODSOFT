@@ -1,0 +1,200 @@
+#include <iostream> // Includes the input-output stream library
+#include <math.h>   // Includes the math library for functions like pow()
+#include <iomanip>  // Includes the library for input-output manipulators
+
+using namespace std; // Uses the standard namespace
+
+// Function declarations
+void Greeting();
+void Operation1();
+void Operation2();
+int Choice1(int numbers[], int size);
+int Choice2(int numbers[], int size);
+int Choice3(int numbers[], int size);
+int Choice4(int numbers[], int size);
+int Choice5(int numbers[], int size);
+double Choice6(int numbers[], int size);
+
+int main() {
+    int size, choice, answer;
+    double answer2;
+    int i = 0, j;
+
+    // Display the greeting message
+    Greeting();
+    cin >> size;
+
+    // Validate the number of inputs
+    while(size < 2) {
+        cout << "Number is invalid, you can't enter 0 or 1 number to do an operation" << endl;
+        cout << "Please enter the number correctly" << endl;
+        cout << "How many numbers would you like to operate on?" << endl;
+        cin >> size;
+    }
+
+    int numbers[size];
+
+    // If size is greater than 2, limit to addition, subtraction, and multiplication
+    if(size > 2) {
+        Operation1(); // Display the first set of operation options
+        cin >> choice;
+        
+        // Validate the choice input
+        while(choice > 3 || choice < 1) {
+            cout << "Please stick to choose between 1 and 3" << endl;
+            cin >> choice;
+        }
+        
+        // Input the numbers
+        cout << "Please enter the 1st number" << endl;
+        cin >> numbers[i];
+        i++;
+        cout << "Enter the 2nd number:" << endl;
+        cin >> numbers[i];
+        i++;
+        cout << "Enter the 3rd number:" << endl;
+        cin >> numbers[i];
+        i++;
+        for(j = 4; j <= size; j++) {
+            cout << "Enter the " << j << "th number:" << endl;
+            cin >> numbers[i];
+            i++;
+        }
+        
+        // Perform the chosen operation
+        if(choice == 1) {
+            answer = Choice1(numbers, size);
+            cout << "The answer is: " << answer;
+        }
+        else if(choice == 2) {
+            answer = Choice2(numbers, size);
+            cout << "The answer is: " << answer;
+        }
+        else if(choice == 3) {
+            answer = Choice3(numbers, size);
+            cout << "The answer is: " << answer;
+        }          
+    }
+    else { 
+        Operation2(); // Display the second set of operation options
+        cin >> choice;
+
+        // Input the numbers
+        cout << "Please enter the 1st number" << endl;
+        cin >> numbers[i];
+        i++;
+        cout << "Enter the 2nd number:" << endl;
+        cin >> numbers[i];
+        i++;
+
+        // Validate the choice input
+        while(choice > 6 || choice < 1) {
+            cout << "Please stick to choose between 1 and 6" << endl;
+            cin >> choice;
+        }
+        
+        // Perform the chosen operation
+        if(choice == 1) {
+            answer = Choice1(numbers, size);
+            cout << "The answer is: " << answer;
+        }
+        else if(choice == 2) {
+            answer = Choice2(numbers, size);
+            cout << "The answer is: " << answer;
+        }
+        else if(choice == 3) {
+            answer = Choice3(numbers, size);
+            cout << "The answer is: " << answer;
+        }
+        else if(choice == 4) {
+            answer = Choice4(numbers, size);
+            cout << "The answer is: " << answer;
+        }
+        else if(choice == 5) {
+            answer = Choice5(numbers, size);
+            cout << "The answer is: " << answer;
+        }
+        else if(choice == 6) {
+            answer2 = Choice6(numbers, size);
+            cout << fixed << setprecision(6); // Set precision for floating-point output
+            cout << "The answer is: " << answer2;
+        }
+    }
+
+    return 0; // End of the program
+}
+
+// Function to display the greeting message
+void Greeting() {
+    cout << "Hello it's your calculator!" << endl;
+    cout << "How many numbers would you like to operate on?" << endl;
+    cout << "Please note you can use more than 2 numbers ";
+    cout << "in addition, subtraction and multiplication only" << endl;
+}
+
+// Function to display the first set of operation options
+void Operation1() {
+    cout << endl << "Please enter the type of operation" << endl;
+    cout << "If you would like to do addition, enter 1" << endl;
+    cout << "If you would like to do subtraction, enter 2" << endl;
+    cout << "If you would like to do multiplication, enter 3" << endl;
+}
+
+// Function to display the second set of operation options
+void Operation2() {
+    cout << endl << "Please enter the type of operation" << endl;
+    cout << "If you would like to do addition, enter 1" << endl;
+    cout << "If you would like to do subtraction, enter 2" << endl;
+    cout << "If you would like to do multiplication, enter 3" << endl;
+    cout << "If you would like to do division, enter 4" << endl;
+    cout << "If you would like to do exponentiation, enter 5" << endl;
+    cout << "If you would like to do square root, enter 6" << endl;
+}
+
+// Function for addition
+int Choice1(int numbers[], int size) {
+    int sum = 0;
+    for(int j = 1; j <= size; j++) {
+        sum += numbers[j-1];
+    }
+    return sum;
+}
+
+// Function for subtraction
+int Choice2(int numbers[], int size) {
+    int sub = numbers[0];
+    for(int k = 1; k < size; k++) {
+        sub -= numbers[k];
+    }
+    return sub;
+}
+
+// Function for multiplication
+int Choice3(int numbers[], int size) {
+    int mul = numbers[0];
+    for(int z = 1; z < size; z++) {
+        mul *= numbers[z];
+    }
+    return mul;
+}
+
+// Function for division
+int Choice4(int numbers[], int size) {
+    int Div = numbers[0] / numbers[1];
+    return Div;
+}
+
+// Function for exponentiation
+int Choice5(int numbers[], int size) {
+    int Pow = pow(numbers[0], numbers[1]);
+    return Pow;
+}
+
+// Function for square root calculation
+double Choice6(int numbers[], int size) {
+    double number1 = static_cast<double>(numbers[0]);
+    double number2 = static_cast<double>(numbers[1]);
+    double sroot = pow(number1, (1.0 / number2));
+    return sroot;
+}
+
