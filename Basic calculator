@@ -148,7 +148,8 @@ void Operation2() {
     cout << "If you would like to do multiplication, enter 3" << endl;
     cout << "If you would like to do division, enter 4" << endl;
     cout << "If you would like to do exponentiation, enter 5" << endl;
-    cout << "If you would like to do square root, enter 6" << endl;
+    cout << "If you would like to do the root of a number, enter 6" << endl;
+    cout << "in the root option the first number is the Radicant and the second is the Index" << endl;
 }
 
 // Function for addition
